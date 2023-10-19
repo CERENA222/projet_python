@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .database import create_db_session, create_db_engine
 from .models import Artist, Album, Track
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -41,3 +42,37 @@ def get_tracks(album_id: int):
     return [{"track_id": track.trackid, "name": track.name} for track in tracks]
 
 
+class ArtistCreate(BaseModel):
+    name: str
+
+
+@app.post("/artists/")
+def create_artist(artist: ArtistCreate):
+    new_artist = Artist(name=artist.name)
+    session.add(new_artist)
+    session.commit()
+    session.refresh(new_artist)
+    return new_artist
+
+
+@app.put("/artists/{artist_id}")
+def update_artist(artist_id: int, new_name: str):
+    artist = session.query(Artist).filter(Artist.artistid == artist_id).first()
+    if artist is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+
+    artist.name = new_name
+    session.commit()
+    session.refresh(artist)
+    return artist
+
+
+@app.delete("/artists/{artist_id}")
+def delete_artist(artist_id: int):
+    artist = session.query(Artist).filter(Artist.artistid == artist_id).first()
+    if artist is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+
+    session.delete(artist)
+    session.commit()
+    return {"message": "Artist deleted successfully"}
