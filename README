@@ -1,0 +1,50 @@
+ Projet FastAPI avec SQLite
+
+Ce projet consiste à créer une API FastAPI pour accéder à une base de données SQLite basée sur Chinook. Le projet comprend également un script client qui récupère les données de l'API.
+
+#Structure du Projet
+
+- `client.py` : Le script client qui utilise le module `requests` pour interagir avec l'API.
+- `server` : Un dossier contenant les modules du serveur FastAPI.
+  - `api.py` : L'application FastAPI avec les routes définies.
+  - `database.py` : Fonctions utilitaires pour la gestion de la base de données.
+  - `models.py` : Définition des modèles de la base de données.
+- `chinook.db` : La base de données SQLite (qui n'est pas versionner).
+- `requirements.txt` : Les dépendances du projet.
+- `env` : L'environnement virtuel Python (qui n'est pas versionner).
+
+#Utilisation
+
+1. Cloner le dépôt depuis [https://github.com/CERENA222/projet_python].
+2. Installer les dépendances avec `pip install -r requirements.txt`.
+3. Lancer l'API FastAPI avec `uvicorn server.api:app --reload`.
+4. Exécuter le script client avec `python client.py`.
+
+#Fonctionnalités du Script Client
+
+Le script client permet à l'utilisateur de saisir :
+1. Un nom d'artiste pour afficher les artistes correspondants.
+2. Un identifiant d'artiste pour afficher les noms d'albums correspondants.
+3. Un identifiant d'album pour afficher les noms de pistes correspondants.
+
+#Fonctionnalités de l'API
+
+L'API FastAPI offre trois routes :
+1. `/artists/{artist_name}` : Récupère les artistes par nom.
+2. `/albums/{artist_id}` : Récupère les albums par ID d'artiste.
+3. `/tracks/{album_id}` : Récupère les noms de pistes par ID d'album.
+**Création (Create)
+   - `/artists/` : Crée un nouvel artiste.
+**Mise à jour (Update) 
+   - `/artists/{artist_id}` : Met à jour le nom d'un artiste.
+**Suppression (Delete) :
+   - `/artists/{artist_id}` : Supprime un artiste.
+
+#Remarques
+
+- Le script client utilise le module `requests` pour interagir avec l'API.
+
+
+#Auteur
+
+Cerena BOSSIMBA
